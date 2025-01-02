@@ -39,13 +39,12 @@ RUN { \
     chown -R www-data:root /var/www; \
     chmod -R g=u /var/www
 
-COPY ./lsky-pro/ /var/www/html/
+COPY ./lsky-pro/ /var/www/lsky/
 COPY ./src/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY ./src/nginx/ /etc/nginx/
 COPY ./src/entrypoint.sh /
 WORKDIR /var/www/html
-VOLUME /var/www/html/.env
-VOLUME /var/www/html/public/i
+VOLUME /var/www/html
 EXPOSE 80
 RUN chmod a+x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
