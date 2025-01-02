@@ -9,14 +9,15 @@ on:
       - '.github/**'
       - 'src/**'
       - '.gitmodules'
-      - 'lsky-pro/**'
+      - 'lsky-pro'
   pull_request:
     branches: "main"
 
     paths:
-      - '.gitmodules'
       - '.github/**'
       - 'src/**'
+      - '.gitmodules'
+      - 'lsky-pro'
 
 env:
   IMAGE_NAME: ${{ github.actor }}/lsky-pro
