@@ -10,7 +10,8 @@ RUN apk update && apk add --no-cache imagemagick imagemagick-dev \
     && apk del gcc g++ make autoconf \
     \
     && docker-php-ext-install bcmath \
-    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install pdo_mysql && docker-php-ext-install php_pdo_odbc \
+    && docker-php-ext-install php_pdo_pgsql && docker-php-ext-install php_pdo_sqlite \
     && docker-php-ext-enable imagick \
     && docker-php-ext-configure gd --with-webp=/usr/include/webp --with-jpeg=/usr/include --with-freetype=/usr/include/ \
     && docker-php-ext-install gd
