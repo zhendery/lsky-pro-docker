@@ -49,3 +49,7 @@ doc: xxx文档更新
 
 感谢[lsky-pro](https://github.com/lsky-org/lsky-pro)。
 感谢[lsky-pro-docker](https://github.com/hellodk34/lsky-pro-docker)，本项目基于其修改而来。
+
+## 写给自己
+
+功能修改一定要新建分支，不要直接在main分支上修改，尤其是更新submodule，否则会错误合入official分支。
