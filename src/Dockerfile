@@ -10,10 +10,10 @@ RUN apk update && apk add --no-cache imagemagick imagemagick-dev \
     && apk del gcc g++ make autoconf \
     \
     # 需要sqlserver打开这个
-    # && apk add --no-cache unixodbc-dev \
-    # && docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr && docker-php-ext-install pdo_odbc \
+    && apk add --no-cache unixodbc-dev \
+    && docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr && docker-php-ext-install pdo_odbc \
     # 需要sqlite打开这个
-    # && apk add --no-cache sqlite-dev && docker-php-ext-install pdo_sqlite \
+    && apk add --no-cache sqlite-dev && docker-php-ext-install pdo_sqlite \
     # 需要postgresql打开这个
     # && apk add --no-cache postgresql-dev && docker-php-ext-install pdo_pgsql \
     \
