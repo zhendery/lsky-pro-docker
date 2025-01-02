@@ -42,7 +42,7 @@ RUN { \
 COPY ./lsky-pro/ /var/www/html/
 COPY ./src/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY ./src/nginx/ /etc/nginx/
-COPY entrypoint.sh /
+COPY ./src/entrypoint.sh /
 WORKDIR /var/www/html
 VOLUME /var/www/html
 EXPOSE 80
