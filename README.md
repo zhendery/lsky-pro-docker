@@ -15,7 +15,9 @@ docker run -d --name lsky-pro \ # 容器名按自己需求修改
   -v /mnt/docker/lsky-pro:/var/www/html \ # 挂载路径按自己需求修改
   zhendery/lsky-pro:official # 官方镜像，使用我的镜像替换为latest即可
 ```
-lsky-pro的使用方法请自行参考[官方文档](https://docs.lsky.pro/guide/getting-started)，如果要使用[我的镜像](https://github.com/zhendery/lsky-pro)，请替换`zhendery/lsky-pro:official`为`zhendery/lsky-pro:latest`，或请查看我具体tag的发版说明然后替换为对应tag，我的镜像会添加一些我自己需要的功能，偏向通用的功能我自己长期使用测试下来没问题的话也有可能会申请合入官方。
+lsky-pro的使用方法请自行参考[官方文档](https://docs.lsky.pro/guide/getting-started)，如果要使用[我的镜像](https://github.com/zhendery/lsky-pro)，请替换`zhendery/lsky-pro:official`为`zhendery/lsky-pro:latest`，或请查看我具体tag的[发版说明](https://github.com/zhendery/lsky-pro-docker/tags)（如图中展示了official的tag说明）然后替换为对应tag，我的镜像会添加一些我自己需要的功能，偏向通用的功能我自己长期使用测试下来没问题的话也有可能会申请合入官方。
+
+![tag_content](docs/imgs/tag_content.webp)
 
 official镜像只打开了mysql、sqlite、odbc扩展，默认关闭了pdo_pgsql，因为pgsql扩展严重影响编译时长和镜像大小。而latest镜像只打开了mysql，如果需要使用相应扩展请自行编译镜像(dockerfile中有相应注释，但除mysql外我都没测试过可用性，希望测试了的同学可以给我反馈)。
 
