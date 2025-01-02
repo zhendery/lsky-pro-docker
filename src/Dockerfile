@@ -44,7 +44,8 @@ COPY ./src/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY ./src/nginx/ /etc/nginx/
 COPY ./src/entrypoint.sh /
 WORKDIR /var/www/html
-VOLUME /var/www/html
+VOLUME /var/www/html/.env
+VOLUME /var/www/html/public/i
 EXPOSE 80
 RUN chmod a+x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
