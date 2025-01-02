@@ -84,14 +84,14 @@ jobs:
           context: .
           file: src/Dockerfile
           push: true
-          tags: ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:main
+          tags: ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:${GITHUB_REF##*/}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       # 调试用的镜像不签名，如有需要可以打开
       # - name: Sign the published Docker image
       #   env:
-      #     TAGS: ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:main
+      #     TAGS: ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:${GITHUB_REF##*/}
       #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
       #   run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
