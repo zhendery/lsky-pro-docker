@@ -58,4 +58,4 @@ doc: xxx文档更新
 
 ## 写给自己
 
-功能修改一定要新建分支，不要直接在main分支上修改，尤其是更新submodule，否则会错误合入official分支。
+official分支要单独提交，可以用cherry-pick，不能从main或者main创建的分支进行合并，否则会把main的提交也带进来。
