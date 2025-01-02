@@ -1,6 +1,8 @@
 # lsky-pro-docker
 [Lsky Pro兰空图床](https://github.com/lsky-org/lsky-pro)的docker镜像，Fork自[lsky-pro-docker](https://github.com/hellodk34/lsky-pro-docker)，添加了自动编译action，把基于apache改为基于alpine+nginx的镜像，镜像大小从838.1MB缩减到207.7MB，启动运行速度也会更快，适合个人和小型团队（家庭）使用。
 
+【注】非特殊情况后续文档不会在分支上更新，请以main的文档为准。
+
 ## 如何使用
 
 ### 直接使用我编译好的镜像
@@ -14,6 +16,8 @@ docker run -d --name lsky-pro \ # 容器名按自己需求修改
   zhendery/lsky-pro:official # 官方镜像，使用我的镜像替换为latest即可
 ```
 lsky-pro的使用方法请自行参考[官方文档](https://docs.lsky.pro/guide/getting-started)，如果要使用[我的镜像](https://github.com/zhendery/lsky-pro)，请替换`zhendery/lsky-pro:official`为`zhendery/lsky-pro:latest`，或请查看我具体tag的发版说明然后替换为对应tag，我的镜像会添加一些我自己需要的功能，偏向通用的功能我自己长期使用测试下来没问题的话也有可能会申请合入官方。
+
+official镜像只打开了mysql、sqlite、odbc扩展，默认关闭了pdo_pgsql，因为pgsql扩展严重影响编译时长和镜像大小。而latest镜像只打开了mysql，如果需要使用相应扩展请自行编译镜像(dockerfile中有相应注释，但除mysql外我都没测试过可用性，希望测试了的同学可以给我反馈)。
 
 ### 自己编译镜像
 

@@ -47,11 +47,6 @@ jobs:
           php_version: "8.1"
           working_dir: "lsky-pro"
 
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v3.7.0
-        with:
-          cosign-release: 'v2.2.4'
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -87,14 +82,6 @@ jobs:
           tags: ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      # 调试用的镜像不签名，如有需要可以打开
-      # - name: Sign the published Docker image
-      #   env:
-      #     TAGS: ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:${{ github.ref_name }}
-      #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
-      #   run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
-
         
       # 发布tag时推送到dockerhub  
       - name: Push Docker image to Docker Hub (on tag push)
@@ -109,13 +96,4 @@ jobs:
             ${{ env.LOWERCASE_IMAGE_NAME }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Sign the published Docker image
-        if: startsWith(github.ref, 'refs/tags/')
-        env:
-          TAGS: |
-            ${{ env.LOWERCASE_IMAGE_NAME }}:latest
-            ${{ env.LOWERCASE_IMAGE_NAME }}:${{ github.ref_name }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
