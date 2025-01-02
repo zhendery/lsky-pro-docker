@@ -14,9 +14,28 @@ env:
 
 
 jobs:
-  build:
-
+  check-changes:
     runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.check_changes.outputs.skip }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [ -z "$(git diff --name-only HEAD^)" ] || \
+             [[ "$(git diff --name-only HEAD^)" =~ ^(README\.md|docs/.*)$ ]]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+  build:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.skip != 'true' }}
     permissions:
       contents: read
       packages: write
@@ -25,9 +44,6 @@ jobs:
       id-token: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Update Submodule
         run: git submodule update --init --recursive
 
