@@ -17,7 +17,7 @@ lsky-pro的使用方法请自行参考[官方文档](https://docs.lsky.pro/guide
 
 ### 自己编译镜像
 
-1. 把项目fork到自己的仓库；
+1. 把项目fork到自己的仓库（根据需求选择我的或official的分支）；
 2. **打开项目的Actions**，根据自己需求对代码进行修改，commit并push后action会自动开启编译和推送到github registry；
 3. 等待action完成，在项目的packages页面可以看到编译好的镜像；
 ![packages](docs/imgs/packages.webp)
@@ -35,4 +35,4 @@ lsky-pro的使用方法请自行参考[官方文档](https://docs.lsky.pro/guide
 然后发布tag，名称按自己需求修改（如v0.1.1或feature-xxx），会自动编译并推送到dockerhub（tag及latest）。
 
 ## 贡献
-本人对docker、github actions等技术纯小白，对php更是一窍不通。单纯是因为lsky-pro好用但部分功能满足不了我，所以才简单自学了一下。如果有问题或建议，欢迎提交issue或PR（issue我能力有限不一定能修复，也欢迎网友指正），同时也欢迎Star！
+本人对docker、github actions等技术纯小白，对php更是一窍不通。单纯是因为lsky-pro好用但部分功能满足不了我，所以才浅浅自学了一下就来班门弄斧。如果有问题或建议，欢迎提交issue或PR（我能力有限不一定能修复，也欢迎网友指正），同时也欢迎Star！
