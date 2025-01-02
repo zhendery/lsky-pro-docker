@@ -39,9 +39,9 @@ RUN { \
     chown -R www-data:root /var/www; \
     chmod -R g=u /var/www
 
-COPY ../lsky-pro/ /var/www/html/
-COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-COPY ./nginx/ /etc/nginx/
+COPY ./lsky-pro/ /var/www/html/
+COPY ./src/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY ./src/nginx/ /etc/nginx/
 COPY entrypoint.sh /
 WORKDIR /var/www/html
 VOLUME /var/www/html
