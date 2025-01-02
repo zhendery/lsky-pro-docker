@@ -1,114 +1,38 @@
 # lsky-pro-docker
-Lsky Pro 兰空图床 docker 镜像，适用于 Linux arm64 和 amd64 架构。镜像地址: https://hub.docker.com/r/dko0/lsky-pro
+Lsky Pro兰空图床docker镜像，Fork自[lsky-pro-docker](https://github.com/hellodk34/lsky-pro-docker)，添加了自动编译action，把基于apache改为基于alpine+nginx的镜像，镜像大小从838.1MB缩减到207.7MB，启动运行速度也会更快，适合个人和小型团队（家庭）使用。
 
-**镜像使用**
+## 如何使用
 
-举一个连接 mysql8 的例子，你也可以使用其他数据库
+### 直接使用我编译好的镜像
+```shell
+mkdir -p /mnt/docker/lsky-pro # 路径按自己需求修改
 
+docker run -d --name lsky-pro \ # 容器名按自己需求修改
+  --restart=always -e TZ=Asia/Shanghai \ # 时区按自己需求修改
+  -p 33333:80 \ # 端口按自己需求修改
+  -v /mnt/docker/lsky-pro:/var/www/html \ # 挂载路径按自己需求修改
+  zhendery/lsky-pro:official # 官方镜像，使用我的镜像替换为latest即可
 ```
-docker network create lsky-pro-net
+lsky-pro的使用方法请自行参考[官方文档](https://docs.lsky.pro/guide/getting-started)、[官方Github](https://github.com/lsky-org/lsky-pro)，如果要使用我的镜像，请替换`zhendery/lsky-pro:official`为`zhendery/lsky-pro:latest`，或请查看我具体tag的发版说明然后替换为对应tag，我的镜像会添加一些我自己需要的功能，偏向通用的功能我自己长期使用测试下来没问题的话也有可能会申请合入官方。
 
-docker run -d -p 3306:3306 --name mysql8.0.29 --network lsky-pro-net --network-alias mysql --restart=always -e MYSQL_ROOT_PASSWORD=123456 mysql:8.0.29-debian
+### 自己编译镜像
 
-docker run -d --name=lsky-pro --restart=always --network lsky-pro-net -v /path/to/lsky-pro-data:/var/www/html -p 7791:80 dko0/lsky-pro:2.0.4
+1. 把项目fork到自己的仓库；
+2. **打开项目的Actions**，根据自己需求对代码进行修改，commit并push后action会自动开启编译和推送到github registry；
+3. 等待action完成，在项目的packages页面可以看到编译好的镜像；
+![packages](docs/imgs/packages.webp)
+4. `docker pull ghcr.io/你的用户名(小写)/lsky-pro:main`拉取镜像，或直接`docker run`运行；
+![docker-pull](docs/imgs/docker-pull.webp)
+5. 测试自己修改的功能是否实装成功。
 
-docker exec -it mysql8.0.29 bash
+### 推送到docker hub
+如果需要推送到dockerhub，需要在项目settings->secrets，添加：
+   - `DOCKER_USERNAME`：你的dockerhub用户名
+   - `DOCKER_PASSWORD`：你的dockerhub密码
+   
+![secrets](docs/imgs/secrets.webp)
 
-mysql -uroot -p123456
+然后发布tag，名称按自己需求修改（如v0.1.1或feature-xxx），会自动编译并推送到dockerhub（tag及latest）。
 
-create user 'lskypro'@'%' identified by '123456';
-
-grant all privileges on *.* to 'lskypro'@'%' with grant option;
-
-flush privileges;
-
-create database lskypro;
-```
-
-浏览器访问 http://your_ip:7791 ，连接数据库时填写上面指定的 host（mysql 容器的名字或者 network-alias 的名字均可）、port（容器内部端口，并非映射的宿主机端口，一般都是 3306）、username（使用专门创建的 lskypro 用户，一般不用 root，最小权限原则）、password（为 lskypro 用户设置的密码）、database_name（数据库名称，lskypro） 再安装即可。
-
-喜欢 compose 的话可以自行编排一下，例子中的 mysql 容器我希望也能用在其他服务中就相对独立了出来。
-
-------
-
-我看 GitHub 上有好几个 lsky-pro-docker repo 了（名字类似），虽说是开源了 Dockerfile，但是使用这些资源是不够的（也就是说，你通过这些开源的资源，docker build，虽然镜像能成功创建，但是容器启动后程序无法运行）。所以我新建了此 repo。详细的记录一下 Lsky Pro 镜像应该如何构建。而且简单学习了一下 docker 多架构构建，现分享出来。
-
-本镜像构建关键的三个文件
-
-- 000-default.conf
-- Dockerfile
-- entrypoint.sh
-
-这三个文件在本仓库有。
-
-然后很重要的一点是使用 composer 安装 `composer.json` 指定的依赖。
-
-在构建的机器上安装 `php8.1` 以及 `composer v2.3.5` 环境。在项目根目录执行 `composer install` 安装依赖。
-
-源程序推荐通过 GitHub Release 页面发布的最新稳定版下载。
-
-多架构构建需要用到 `buildx` 工具，这是一个 docker cli 插件，提供了在一台机器上构建其他平台程序的能力。
-
-镜像构建的过程我写了几篇博客，需要详细了解可阅读
-
-- [斐讯 N1 Debian9 安装 php8.1 和 composer](https://hellodk.cn/post/1032)
-- [构建 arm64 架构和 amd64 架构的兰空图床 docker 镜像](https://hellodk.cn/post/1034)
-- [Docker 构建多架构镜像实战 构建 amd64 和 arm64 架构的兰空图床镜像](https://hellodk.cn/post/1037)
-
----
-
-有任何问题，请在此仓库创建 issue 交流，感谢使用！
-
-贴一个 nginx 反向代理的配置，支持 80 端口 301 跳转到 443 端口，并且使用 ssl 证书。建议将以下内容（请自行修改域名、证书等内容）保存至 `/etc/nginx/vhost/lsky-pro.conf` 或是 `/etc/nginx/sites-enabled/lsky-pro.conf`
-
-```
-server {
-        listen 80;
-        listen [::]:80;
-
-        server_name img.example.com;
-
-        location / {
-                return 301 https://img.example.com$request_uri;
-        }
-}
-
-server {
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
-    server_name img.example.com;
-    server_tokens off;
-    root /path/to/mount/lsky-pro-data/public;
-
-    ssl_certificate    /etc/letsencrypt/live/example.com/fullchain.pem;
-    ssl_certificate_key    /etc/letsencrypt/live/example.com/privkey.pem;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256!aNULL:!MD5:!RC4:!DHE;
-    ssl_prefer_server_ciphers on;
-    ssl_session_timeout 10m;
-
-    index index.php;
-
-    charset utf-8;
-
-    error_log  /var/log/nginx/lskypro.error.log error;
-
-    location / {
-            proxy_pass http://127.0.0.1:7791;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_set_header REMOTE-HOST $remote_addr;
-    }
-}
-```
-
-保存后执行
-
-```
-# nginx -t
-# nginx -s reload
-```
-
-如果没有任何报错，那么恭喜，你的图床 https://img.example.com 已经可用了。
+## 贡献
+本人对docker、github actions等技术纯小白，对php更是一窍不通。单纯是因为lsky-pro好用但部分功能满足不了我，所以才简单自学了一下。如果有问题或建议，欢迎提交issue或PR（issue我能力有限不一定能修复，也欢迎网友指正），同时也欢迎Star！
