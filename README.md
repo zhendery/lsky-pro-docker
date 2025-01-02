@@ -1,5 +1,5 @@
 # lsky-pro-docker
-Lsky Pro兰空图床docker镜像，Fork自[lsky-pro-docker](https://github.com/hellodk34/lsky-pro-docker)，添加了自动编译action，把基于apache改为基于alpine+nginx的镜像，镜像大小从838.1MB缩减到207.7MB，启动运行速度也会更快，适合个人和小型团队（家庭）使用。
+[Lsky Pro兰空图床](https://github.com/lsky-org/lsky-pro)的docker镜像，Fork自[lsky-pro-docker](https://github.com/hellodk34/lsky-pro-docker)，添加了自动编译action，把基于apache改为基于alpine+nginx的镜像，镜像大小从838.1MB缩减到207.7MB，启动运行速度也会更快，适合个人和小型团队（家庭）使用。
 
 ## 如何使用
 
@@ -13,12 +13,12 @@ docker run -d --name lsky-pro \ # 容器名按自己需求修改
   -v /mnt/docker/lsky-pro:/var/www/html \ # 挂载路径按自己需求修改
   zhendery/lsky-pro:official # 官方镜像，使用我的镜像替换为latest即可
 ```
-lsky-pro的使用方法请自行参考[官方文档](https://docs.lsky.pro/guide/getting-started)、[官方Github](https://github.com/lsky-org/lsky-pro)，如果要使用我的镜像，请替换`zhendery/lsky-pro:official`为`zhendery/lsky-pro:latest`，或请查看我具体tag的发版说明然后替换为对应tag，我的镜像会添加一些我自己需要的功能，偏向通用的功能我自己长期使用测试下来没问题的话也有可能会申请合入官方。
+lsky-pro的使用方法请自行参考[官方文档](https://docs.lsky.pro/guide/getting-started)，如果要使用我的镜像，请替换`zhendery/lsky-pro:official`为`zhendery/lsky-pro:latest`，或请查看我具体tag的发版说明然后替换为对应tag，我的镜像会添加一些我自己需要的功能，偏向通用的功能我自己长期使用测试下来没问题的话也有可能会申请合入官方。
 
 ### 自己编译镜像
 
 1. 把项目fork到自己的仓库（根据需求选择我的或official的分支）；
-2. **打开项目的Actions**，根据自己需求对代码进行修改，commit并push后action会自动开启编译和推送到github registry；
+2. **开启项目的Actions**，根据自己需求对代码进行修改，commit并push后action会自动开启编译和推送到github registry；
 3. 等待action完成，在项目的packages页面可以看到编译好的镜像；
 ![packages](docs/imgs/packages.webp)
 4. `docker pull ghcr.io/你的用户名(小写)/lsky-pro:main`拉取镜像，或直接`docker run`运行；
