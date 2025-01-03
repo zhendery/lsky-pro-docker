@@ -8,8 +8,7 @@ if [ -e '/var/www/lsky' ]; then
     rm -rf /var/www/lsky
 fi
 
-chown -R www-data /var/www/html
-chgrp -R www-data /var/www/html
+chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html/
 
 exec "$@"
