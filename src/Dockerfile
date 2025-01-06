@@ -19,9 +19,7 @@ RUN apk update && apk add --no-cache imagemagick imagemagick-dev \
     \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-enable imagick \
-    && docker-php-ext-configure gd --with-webp=/usr/include/webp --with-jpeg=/usr/include --with-freetype=/usr/include/ \
-    && docker-php-ext-install gd
+    && docker-php-ext-enable imagick 
 
 # # 需要sqlserver打开这个
 # RUN apk add --no-cache unixodbc-dev \
