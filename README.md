@@ -17,7 +17,7 @@ docker run -d --name lsky-pro \ # 容器名按自己需求修改
 ```
 lsky-pro的使用方法请自行参考[官方文档](https://docs.lsky.pro/guide/getting-started)，如果要使用[我的镜像](https://hub.docker.com/repository/docker/zhendery/lsky-pro)，请替换`zhendery/lsky-pro:official`为`zhendery/lsky-pro:latest`，或请查看我具体的[发版说明](https://github.com/zhendery/lsky-pro-docker/releases)（如下图展示了v0.0.1的说明）然后替换为对应tag，我的镜像会添加一些我自己需要的功能，偏向通用的功能我自己长期使用测试下来没问题的话也有可能会申请合入官方。
 
-![release_content](docs/imgs/release_content.webp)
+![release_content](https://raw.githubusercontent.com/zhendery/lsky-pro-docker/refs/heads/main/docs/imgs/release_content.webp)
 
 official镜像只打开了mysql、sqlite、odbc扩展，默认关闭了pdo_pgsql，因为pgsql扩展严重影响编译时长和镜像大小。而latest镜像只打开了mysql，如果需要使用相应扩展请自行编译镜像(dockerfile中有相应注释，但除mysql外我都没测试过可用性，希望测试了的同学可以给我反馈)。
 
@@ -26,9 +26,9 @@ official镜像只打开了mysql、sqlite、odbc扩展，默认关闭了pdo_pgsql
 1. 把项目fork到自己的仓库（根据需求选择我的或official的分支）；
 2. **开启项目的Actions**，根据自己需求对代码进行修改，commit并push后action会自动开启编译和推送到github registry；
 3. 等待action完成，在项目的packages页面可以看到编译好的镜像；
-![packages](docs/imgs/packages.webp)
+![packages](https://raw.githubusercontent.com/zhendery/lsky-pro-docker/refs/heads/main/docs/imgs/packages.webp)
 4. `docker pull ghcr.io/你的用户名(小写)/lsky-pro:main`拉取镜像，或直接`docker run`运行；
-![docker-pull](docs/imgs/docker-pull.webp)
+![docker-pull](https://raw.githubusercontent.com/zhendery/lsky-pro-docker/refs/heads/main/docs/imgs/docker-pull.webp)
 5. 测试自己修改的功能是否实装成功。
 
 ### 推送到docker hub
@@ -36,7 +36,7 @@ official镜像只打开了mysql、sqlite、odbc扩展，默认关闭了pdo_pgsql
    - `DOCKER_USERNAME`：你的dockerhub用户名
    - `DOCKER_PASSWORD`：你的dockerhub密码
    
-![secrets](docs/imgs/secrets.webp)
+![secrets](https://raw.githubusercontent.com/zhendery/lsky-pro-docker/refs/heads/main/docs/imgs/secrets.webp)
 
 然后发布tag，名称按自己需求修改（如v0.1.1或feature-xxx），会自动编译并推送到dockerhub（tag及latest）。
 
