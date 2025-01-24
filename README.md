@@ -1,5 +1,5 @@
 # lsky-pro-docker
-[Lsky Pro兰空图床](https://github.com/lsky-org/lsky-pro)的docker镜像，Fork自[lsky-pro-docker](https://github.com/hellodk34/lsky-pro-docker)，添加了自动编译action，把基于apache改为基于alpine+nginx的镜像，镜像大小从838.1MB缩减到210.6MB，理论上启动和运行速度也会更快，适合个人和小团队（家庭）使用。
+[Lsky Pro兰空图床](https://github.com/lsky-org/lsky-pro)的docker镜像，Fork自[lsky-pro-docker](https://github.com/hellodk34/lsky-pro-docker)，添加了自动编译action，把基于apache改为基于alpine+nginx的镜像，镜像大小从838.1MB缩减到207.1MB，理论上启动和运行速度也会更快，适合个人和小团队（家庭）使用。
 
 【注】非特殊情况后续文档不会在分支上更新，请以main的文档为准。
 
