@@ -23,6 +23,15 @@ official镜像只打开了mysql、sqlite、odbc扩展，默认关闭了pdo_pgsql
 
 ### 自己编译镜像
 
+#### 本地编译
+1. 克隆项目到本地；
+2. 修改`Dockerfile`文件，根据自己需要打开或关闭扩展；
+3. 根据自己需求对代码进行修改；
+4. `docker build -t 镜像名 项目路径`编译镜像；
+5. 直接`docker run`运行，测试自己修改的功能是否实装成功。
+
+#### 在线编译
+
 1. 把项目fork到自己的仓库（根据需求选择我的或official的分支）；
 2. **开启项目的Actions**，根据自己需求对代码进行修改，commit并push后action会自动开启编译和推送到github registry；
 3. 等待action完成，在项目的packages页面可以看到编译好的镜像；
