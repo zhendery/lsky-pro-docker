@@ -5,9 +5,8 @@ FROM php:8.1-fpm-alpine
 
 RUN apk update && apk add --no-cache imagemagick imagemagick-dev \
     bash autoconf gcc g++ make nginx \
-    libwebp-dev freetype-dev libjpeg-turbo-dev libmcrypt-dev libpng-dev \
+    libwebp freetype libjpeg-turbo libmcrypt libpng \
     && pecl install imagick \
-    && apk del gcc g++ make autoconf \
     \
     # 需要sqlserver打开这个
     # && apk add --no-cache unixodbc-dev \
@@ -19,7 +18,11 @@ RUN apk update && apk add --no-cache imagemagick imagemagick-dev \
     \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-enable imagick 
+    && docker-php-ext-enable imagick \
+    \
+    && apk del gcc g++ make autoconf imagemagick-dev \
+    && rm -rf /var/cache/apk/* \
+    && apk cache clean
 
 # # 需要sqlserver打开这个
 # RUN apk add --no-cache unixodbc-dev \
