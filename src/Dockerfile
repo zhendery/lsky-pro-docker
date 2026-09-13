@@ -4,7 +4,7 @@ FROM php:8.1-fpm-alpine
 # RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list &&
 
 RUN apk update && apk add --no-cache imagemagick imagemagick-dev \
-    bash autoconf gcc g++ make nginx \
+    bash autoconf gcc g++ make \
     libwebp freetype libjpeg-turbo libmcrypt libpng \
     && pecl install imagick \
     \
@@ -61,11 +61,10 @@ RUN { \
 
 COPY ./lsky-pro/ /var/www/lsky/
 COPY ./src/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-COPY ./src/nginx/ /etc/nginx/
 COPY ./src/entrypoint.sh /
 WORKDIR /var/www/html
 VOLUME /var/www/html
 EXPOSE 80
 RUN chmod a+x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["sh", "-c", "nginx && php-fpm"]
+CMD ["sh", "-c", "php-fpm"]
