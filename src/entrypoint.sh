@@ -11,4 +11,21 @@ fi
 chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html/
 
-exec "$@"
+# 启动两个进程
+nginx -g 'daemon off;' &
+NGINX_PID=$!
+
+php-fpm &
+PHP_PID=$!
+
+# 收到信号时优雅关闭两个
+term() {
+    kill -TERM "$NGINX_PID" "$PHP_PID" 2>/dev/null || true
+    wait
+    exit 0
+}
+trap term TERM INT
+
+# 任一进程退出，整体退出
+wait -n
+term

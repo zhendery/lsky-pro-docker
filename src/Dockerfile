@@ -5,7 +5,7 @@ FROM php:8.1-fpm-alpine
 
 RUN apk update && apk add --no-cache imagemagick imagemagick-dev \
     bash autoconf gcc g++ make nginx \
-    libwebp freetype libjpeg-turbo libmcrypt libpng \
+    libwebp freetype libjpeg-turbo libpng \
     && pecl install imagick \
     \
     # 需要sqlserver打开这个
@@ -15,25 +15,15 @@ RUN apk update && apk add --no-cache imagemagick imagemagick-dev \
     # && apk add --no-cache sqlite-dev && docker-php-ext-install pdo_sqlite \
     # 需要postgresql打开这个
     # && apk add --no-cache postgresql-dev && docker-php-ext-install pdo_pgsql \
+    # 不需要mysql注释这个
+    && docker-php-ext-install pdo_mysql \
     \
     && docker-php-ext-install bcmath \
-    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-enable opcache \
     && docker-php-ext-enable imagick \
     \
     && apk del gcc g++ make autoconf imagemagick-dev \
-    && rm -rf /var/cache/apk/* \
-    && apk cache clean
-
-# # 需要sqlserver打开这个
-# RUN apk add --no-cache unixodbc-dev \
-#     && docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr && docker-php-ext-install pdo_odbc
-
-# # 需要sqlite打开这个
-# RUN apk add --no-cache sqlite-dev && docker-php-ext-install pdo_sqlite
-
-# # 需要postgresql打开这个
-# RUN apk add --no-cache postgresql-dev && docker-php-ext-install pdo_pgsql
-
+    && rm -rf /var/cache/apk/*
 
 RUN { \
     echo 'post_max_size = 100M;';\
@@ -62,10 +52,8 @@ RUN { \
 COPY ./lsky-pro/ /var/www/lsky/
 COPY ./src/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY ./src/nginx/ /etc/nginx/
-COPY ./src/entrypoint.sh /
+COPY --chmod=755 ./src/entrypoint.sh /
 WORKDIR /var/www/html
 VOLUME /var/www/html
 EXPOSE 80
-RUN chmod a+x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["sh", "-c", "nginx && php-fpm"]
