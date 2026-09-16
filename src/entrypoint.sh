@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -eu
 
 # 如果是初次安装，则把项目移动到html下进行持久化，主要是.env和installed.lock，以及本地存储中已上传的图片
